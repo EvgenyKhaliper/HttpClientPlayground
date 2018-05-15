@@ -12,8 +12,6 @@ namespace Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            Console.WriteLine("aye");
-            
             await Task.Delay(2000);
 
             return NotFound();

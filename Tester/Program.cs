@@ -15,6 +15,7 @@ namespace Tester
         {
             var start = 0;
             var end = 400;
+            var iterations = 5;
             
             while (true)
             {
@@ -31,25 +32,33 @@ namespace Tester
                     if(input.Equals("n", StringComparison.OrdinalIgnoreCase))
                     {
                         Console.WriteLine("new client go");
-                        var tasks = Enumerable.Range(start, end).Select(i => HttpGet());
-                        Task.WhenAll(tasks)
-                            .GetAwaiter()
-                            .GetResult();
+                        
+                        for(var index = 0; index < iterations; index++){
+
+                            var tasks = Enumerable.Range(start, end).Select(i => HttpGet());
+                            Task.WhenAll(tasks)
+                                .GetAwaiter()
+                                .GetResult();
+
+                        }
                     }
                     else if(input.Equals("s", StringComparison.OrdinalIgnoreCase))
                     {
                         Console.WriteLine("same client go");
-                        using (var client = new HttpClient())
-                        {
-                            var tasks = Enumerable.Range(start, end).Select(i => HttpGet(client));
-                            Task.WhenAll(tasks)
-                                .GetAwaiter()
-                                .GetResult();
+                        for(var index = 0; index < iterations; index++) {
+                            using (var client = new HttpClient())
+                            {
+                                var tasks = Enumerable.Range(start, end).Select(i => HttpGet(client));
+                                Task.WhenAll(tasks)
+                                    .GetAwaiter()
+                                    .GetResult();
+                            }
                         }
                     }
                     startNew.Stop();
-                    Console.WriteLine($"ended in: {startNew.Elapsed.TotalSeconds} " +
-                                      $"\nrate is {end / startNew.Elapsed.TotalSeconds} req/sec");
+                    Console.WriteLine($"avarage is: {startNew.Elapsed.TotalSeconds / iterations} " +
+                                      $"\navarage rate is {end / startNew.Elapsed.TotalSeconds / iterations } req/sec");
+                    Console.WriteLine("\n");
                 }
             }
         }
