@@ -9,7 +9,7 @@ namespace Tester
 {
     class Program
     {
-        private static string URL = "http://localhost:5000/api/Test/1";
+        private static string URL = "http://18.130.43.142:5000/api/Test/1";
 
         static void Main(string[] args)
         {
